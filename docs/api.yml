@@ -1,0 +1,109 @@
+swagger: "2.0"
+info:
+  description: "Larang"
+  version: "1.0.0"
+  title: "Laravel angular video manager"
+host: "larang.loc"
+basePath: "/api"
+schemes:
+  - "http"
+paths:
+  /auth/sign-up:
+    post:
+      summary: "New user registration"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/SignUpForm"
+      responses:
+        200:
+          description: "User registration success"
+          schema:
+            properties:
+              data:
+                $ref: "#/definitions/AuthResponse"
+        422:
+          description: "Incorrect user registration data"
+  /auth/sign-in:
+    post:
+      summary: "User authorization"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/SignInForm"
+      responses:
+        200:
+          description: "User authorization success"
+          schema:
+            properties:
+              data:
+                $ref: "#/definitions/AuthResponse"
+        403:
+          description: "Login and password incorrect"
+  /auth/user:
+    get:
+      summary: "Return authorization user"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "User object"
+          schema:
+            type: "object"
+            properties:
+              data:
+                $ref: "#/definitions/AuthResponse"
+        401:
+          description: "User not authorization"
+
+definitions:
+  SignUpForm:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "test@test.ru"
+      password:
+        type: "string"
+        example: "123456"
+      password_confirmation:
+        type: "string"
+        example: "123456"
+  SignInForm:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "test@test.ru"
+      password:
+        type: "string"
+        example: "123456"
+  AuthResponse:
+    type: "object"
+    properties:
+      user:
+        $ref: "#/definitions/User"
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        example: "123"
+      name:
+        type: "string"
+        example: "John Snow"
+      email:
+        type: "string"
+        example: "test@test.ru"
