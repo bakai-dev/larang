@@ -1,1 +1,19 @@
-<button mat-button>Hi from material</button>
+
+<mat-toolbar color="primary">
+    <a mat-button routerLink="">
+        <mat-icon>videocam</mat-icon> Larang
+    </a>
+
+    <span class="flex-grow"></span>
+
+    <a mat-button routerLink="/auth">
+        <mat-icon>input</mat-icon>
+        Login in
+    </a>
+
+    <a mat-button routerLink="/auth/sign-up">
+        <mat-icon>account_circle</mat-icon>
+        Registration
+    </a>
+</mat-toolbar>
+<router-outlet></router-outlet>
