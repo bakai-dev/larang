@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Resources\AuthResource;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
@@ -42,7 +43,7 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
-        new Registered($user = $this->create($request->all()));
+        new Registered($newUser = $this->create($request->all()));
 
         $credentials = request(['email', 'password']);
 
@@ -51,15 +52,14 @@ class RegisterController extends Controller
             return response()->json(['message' => 'Invalid login credential.'], 401);
         }
 
-        return $this->registered($user, $token);
+        return $this->registered($newUser, $token);
 
     }
 
 
-    protected function registered($user, $token)
+    protected function registered($newUser, $token)
     {
-
-        return response()->json(compact('token', 'user'))->header('Api-Token', $token);
+        return (new AuthResource($newUser))->response()->header('Api-Token', $token);
     }
 
     /**

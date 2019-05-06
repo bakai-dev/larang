@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
+use JWTAuth;
 
 class RegisterTest extends TestCase
 {
@@ -13,14 +14,21 @@ class RegisterTest extends TestCase
     /** @test */
     public function can_register()
     {
-        $this->postJson('/api/auth/register', [
+        $response = $this->postJson('/api/auth/register', [
             'name' => 'Test User',
             'email' => 'test@test.app',
             'password' => 'secret',
             'password_confirmation' => 'secret',
-        ])
-            ->assertSuccessful()
-            ->assertJsonStructure(['id', 'name', 'email']);
+        ]);
+
+        $user = User::whereEmail('test@test.app')->first();
+        $this->assertNotNull($user);
+        $this->assertEquals($user->id, $response->json('data.user.id'));
+        $this->assertEquals($user->name, $response->json('data.user.name'));
+        $this->assertEquals($user->email, $response->json('data.user.email'));
+        $token = JWTAuth::setToken($response->headers->get('api-token'))->getPayload();
+        $response->assertHeader('api-token');
+        $this->assertEquals($user->id, JWTAuth::getPayload($token)->get('sub'));
     }
 
     /** @test */
