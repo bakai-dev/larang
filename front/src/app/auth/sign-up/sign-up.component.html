@@ -5,19 +5,30 @@
 
       <mat-form-field class="full-width">
         <input matInput placeholder="Ваше Имя" formControlName="name" />
+        <mat-error *ngIf="form.get('name').errors">
+          {{ form.get('name').errors }}
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="full-width">
         <input matInput placeholder="E-mail" formControlName="email" />
+        <mat-error *ngIf="form.get('email').errors">
+          {{ form.get('email').errors }}
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="full-width">
         <input type="password" matInput placeholder="Пароль" formControlName="password" />
-
+        <mat-error *ngIf="form.get('password').errors">
+          {{ form.get('password').errors }}
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="full-width">
         <input type="password" matInput placeholder="Подтверждение пароля" formControlName="password_confirmation" />
+        <mat-error *ngIf="form.get('password_confirmation').errors">
+          {{ form.get('password_confirmation').errors }}
+        </mat-error>
       </mat-form-field>
 
       <button type="submit" mat-raised-button color="primary">Зарегистрироваться</button>

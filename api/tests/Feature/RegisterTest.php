@@ -13,7 +13,7 @@ class RegisterTest extends TestCase
     /** @test */
     public function can_register()
     {
-        $this->postJson('/api/register', [
+        $this->postJson('/api/auth/register', [
             'name' => 'Test User',
             'email' => 'test@test.app',
             'password' => 'secret',

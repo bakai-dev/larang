@@ -8,8 +8,18 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 
 /**
- * Class User
- * @package App
+ * App\User
+ *
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property mixed $password
+ * @mixin \Eloquent
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string|null $remember_token
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ *
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -86,6 +96,10 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            $this->id,
+            $this->name,
+            $this->email
+        ];
     }
 }

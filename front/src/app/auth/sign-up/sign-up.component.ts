@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {AuthService} from "../auth.service";
+import {HttpErrorResponse} from "@angular/common/http";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-sign-up',
@@ -11,6 +14,8 @@ export class SignUpComponent implements OnInit {
 
     constructor(
         private formBuilder: FormBuilder,
+        private authService: AuthService,
+        private router: Router
     ) {
     }
 
@@ -24,7 +29,23 @@ export class SignUpComponent implements OnInit {
     }
 
     register() {
-        console.log('login', this.form.value);
+        this.authService.register(this.form.value).subscribe(
+            () => this.router.navigate(['']),
+            (response: HttpErrorResponse) => this.setErrors(response.error.errors)
+        );
+    }
+
+    private setErrors(errors: SignUpErrors) {
+        Object.keys(errors).forEach(attribute => {
+            this.form.get(attribute).setErrors(errors[attribute]);
+        });
     }
 }
 
+export interface SignUpErrors {
+    name?: string[];
+    email?: string[];
+    password?: string[];
+    password_confirmation?: string[];
+
+}

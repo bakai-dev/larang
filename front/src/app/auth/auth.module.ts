@@ -6,6 +6,7 @@ import {MatButtonModule, MatCardModule, MatInputModule} from '@angular/material'
 import {ReactiveFormsModule} from '@angular/forms';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignUpComponent} from './sign-up/sign-up.component';
+import {AuthService} from "./auth.service";
 
 @NgModule({
     declarations: [SignInComponent, SignUpComponent],
@@ -18,7 +19,8 @@ import {SignUpComponent} from './sign-up/sign-up.component';
         MatButtonModule,
 
         ReactiveFormsModule
-    ]
+    ],
+    providers: [AuthService]
 })
 export class AuthModule {
 }
